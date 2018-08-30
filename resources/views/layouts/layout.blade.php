@@ -23,11 +23,11 @@
 </head>
 <body>
     <!-- start: Header -->
-    <nav class="navbar navbar-default header navbar-fixed-top">
+    <nav class="navbar navbar-default header navbar-fixed-top bg-dark-green">
           <div class="col-md-12 nav-wrapper">
             <div class="navbar-header" style="width:100%;">
                 <a href="index.html" class="navbar-brand"> 
-                 <b>PETRO</b>
+                 <b>Petro First Aid Box Controller</b>
                 </a>
 
               <ul class="nav navbar-nav navbar-right user-nav">
@@ -43,7 +43,6 @@
         <div id="left-menu">
             <div class="sub-left-menu scroll">
             <ul class="nav nav-list">
-                <li><div class="left-bg"></div></li>
                 @if(Auth::check())
                 <li>
                     <a class="nav-header" href="/dashboard">Dashboard 
@@ -51,7 +50,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="nav-header" href="/department">Department 
+                    <a class="nav-header" href="/department">Departemen
                     <span class="fa-angle-right fa right-arrow text-right"></span>
                     </a>
                 </li>
@@ -72,7 +71,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="nav-header" href="/order">Order 
+                    <a class="nav-header" href="/order">Permintaan 
                     <span class="fa-angle-right fa right-arrow text-right"></span>
                     </a>
                 </li>

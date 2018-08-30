@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
-@section('title', 'List Kotak')
-@section('page-title', 'List Kotak')
+@section('title', 'Daftar Kotak')
+@section('page-title', 'Daftar Kotak')
 
 @section('breadcrumb')
 <a href="/dashboard">Dashboard</a> <span class="fa-angle-right fa"></span> Kotak
@@ -23,7 +23,7 @@
     @slot('head')
     <tr >
         <th>Nomor Kotak</th>
-        <th>Department</th>
+        <th>Departemen</th>
         <th>Bagian</th>
         <th>Lokasi</th>
         <th>Penanggung Jawab</th>
@@ -43,23 +43,20 @@
     @endslot
 @endcomponent
 
-
-
-
 @else
 <p>Anda tidak memiliki kotak.</p>
 @endif
 @endif
 
-
-@if(!Auth::user()->admin)
-<h2>Kotak Lain</h2>
-@endif
 @if($kotaks->whereNotIn('user_id', [Auth::id()])->count() > 0)
 @component('components.table')
     @slot('title')
     <h3>
+        @if(!Auth::user()->admin)
         Kotak Lain
+        @else
+        Daftar Kotak
+        @endif
     </h3>
     @endslot
 
@@ -68,7 +65,7 @@
        <tr >
             <th>No.</th>
             <th>Nomor Kotak</th>
-            <th>Department</th>
+            <th>Departemen</th>
             <th>Bagian</th>
             <th>Lokasi</th>
             <th>Penanggung Jawab</th>

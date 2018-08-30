@@ -15,26 +15,42 @@
 <p>Bagian: {{ $user->kotak->bagian }}</p>
 <p>Lokasi: {{ $user->kotak->lokasi }}</p>
 <p>Department: {{ $user->department->nama }}</p>
-<form action="/order/create" method="post">
-    <table border="1">
-        <tr align="center">
+@component('components.form')
+    @slot('title', 'Membuat Permintaan Obat')
+    @slot('action', '/order/create')
+    @slot('form_content')
+@component('components.table')
+    @slot('title')
+    <h3>
+         Membuat Permintaan Obat
+    </h3>
+    @endslot
+
+    @slot('head')
+    <tr align="center">
             <th>No.</th>
             <th>Nama Obat</th>
             <th>Ketersediaan</th>
-            <th>Stok Gudang</th>
             <th></th>
         </tr>
-        @foreach($user->kotak->isiKotaks as $isiKotak)
+    @endslot
+
+    @slot('body')
+    @foreach($user->kotak->isiKotaks as $isiKotak)
         <tr align="center">
             <td>{{ $loop->index + 1 }}</td>
             <td>{{ $isiKotak->obat->nama }}</td>
             <td>@if(!$isiKotak->ada) Kosong @else Ada @endif</td>
-            <td>{{ $isiKotak->obat->stok }}</td>
             <td><input type="checkbox" name="isi_kotak_id[]" value="{{ $isiKotak->id }}" @if($isiKotak->ada || $isiKotak->obat->stok <= 0) disabled @endif></td>
         </tr>
         @endforeach
-    </table>
-    <input type="submit" name="submit" value="Kirim Order">
-    @csrf
-</form>
+    @endslot
+@endcomponent
+@endslot
+@slot('link')
+    @component('components.input_submit')
+            @slot('value','Kirim Permintaan')
+        @endcomponent
+    @endslot
+    @endcomponent
 @endsection

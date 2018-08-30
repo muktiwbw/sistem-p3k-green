@@ -20,7 +20,7 @@
         <th>No.</th>
         <th>Username</th>
         <th>Nama</th>
-        <th>Department</th>
+        <th>Departemen</th>
         <th>Tanggal Registrasi</th>
         <th></th>
     </tr>

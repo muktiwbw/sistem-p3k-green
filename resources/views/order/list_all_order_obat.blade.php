@@ -8,11 +8,16 @@
 @endsection
 
 @section('content')
-<p><a href="/order/rekap">Lihat Rekap</a></p>
-<h2>Order Masuk</h2>
 @if($orders->where('status', 0)->count() > 0)
-<table border="1">
-    <tr align="center">
+@component('components.table')
+    @slot('title')
+    <h3>
+        Permintaan Masuk
+    </h3>
+    @endslot
+
+    @slot('head')
+     <tr align="center">
         <th>No.</th>
         <th>Nomor Kotak</th>
         <th>Department</th>
@@ -25,6 +30,9 @@
         <th>Tanggal Order</th>
         <th></th>
     </tr>
+    @endslot
+
+    @slot('body')
     @foreach($orders->where('status', 0)->sortByDesc('created_at') as $order)
         @foreach($order->orderItems as $order_item)
         <tr align="center">
@@ -46,26 +54,38 @@
         </tr>
         @endforeach
     @endforeach
-</table>
+    @endslot
+@endcomponent
+
 @else
 Tidak ada order masuk.
 @endif
 
-<h2>Riwayat Order</h2>
+
 @if($orders->whereIn('status', [1, 2])->count() > 0)
-<table border="1">
+@component('components.table')
+    @slot('title')
+    <h3>
+        Riwayat Permintaan
+    </h3>
+    @endslot
+
+    @slot('head')
     <tr align="center">
         <th>No.</th>
         <th>Nomor Kotak</th>
-        <th>Department</th>
+        <th>Departemen</th>
         <th>Bagian</th>
         <th>Lokasi</th>
         <th>Penanggung Jawab</th>
         <th>Daftar Obat</th>
         <th>Status</th>
         <th>Tanggal Status</th>
-        <th>Tanggal Order</th>
+        <th>Tanggal Permintaan</th>
     </tr>
+    @endslot
+
+    @slot('body')
     @foreach($orders->whereIn('status', [1, 2])->sortByDesc('created_at') as $order)
         @foreach($order->orderItems as $order_item)
         <tr align="center">
@@ -95,8 +115,12 @@ Tidak ada order masuk.
         </tr>
         @endforeach
     @endforeach
-</table>
+    @endslot
+@endcomponent
+
+
 @else
 Riwayat order kosong.
 @endif
+<p><a href="/order/rekap">Lihat Rekap</a></p>
 @endsection

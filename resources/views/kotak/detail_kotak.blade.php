@@ -12,7 +12,7 @@
 <p>Nomor Kotak: {{ $kotak->id }}</p>
 <p>Bagian: {{ $kotak->bagian }}</p>
 <p>Lokasi: {{ $kotak->lokasi }}</p>
-<p>Department: {{ $kotak->user->department->nama }}</p>
+<p>Departemen: {{ $kotak->user->department->nama }}</p>
 <p>Penanggung Jawab: {{ $kotak->user->nama }}</p>
 @if(Auth::user()->admin)
 <p><a href="/kotak/{{ $kotak->id }}/edit">Edit</a> / <a href="/kotak/{{ $kotak->id }}/delete">Delete</a></p>

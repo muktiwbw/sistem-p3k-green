@@ -9,17 +9,30 @@
 @endsection
 
 @section('content')
-<form action="/order/{{$order->id}}/approve" method="post">
-    <table border="1">
-        <tr align="center">
+@component('components.form')
+    @slot('title', 'menyetujui')
+    @slot('action', '/order/'.$order->id.'/approve')
+    @slot('form_content')
+    @component('components.table')
+    @slot('title')
+    <h3>
+        Menyetujui Permintaan Obat 
+    </h3>
+    @endslot
+
+    @slot('head')
+     <tr >
             <th>No.</th>
             <th>Nama Obat</th>
             <th>Jumlah Order</th>
             <th>Stok Gudang</th>
             <th>Tanggal Expired</th>
         </tr>
-            @foreach($order->orderItems as $orderItem)
-            <tr align="center">
+    @endslot
+
+    @slot('body')
+     @foreach($order->orderItems as $orderItem)
+            <tr >
                 <td>{{ $loop->index + 1 }}</td>
                 <td>{{ $orderItem->isiKotak->obat->nama }}</td>
                 <td>1</td>
@@ -34,8 +47,13 @@
                 </td>
             </tr>
             @endforeach
-    </table>
-    @csrf
-    <input type="submit" name="submit" value="Approve">
-</form>
+    @endslot
+@endcomponent
+@endslot
+@slot('link')
+    @component('components.input_submit')
+            @slot('value','setuju')
+        @endcomponent
+    @endslot
+@endcomponent
 @endsection

@@ -1,10 +1,10 @@
 @extends('layouts.layout')
 
-@section('title', 'List Department')
-@section('page-title', 'List Department')
+@section('title', 'Daftar Departemen')
+@section('page-title', 'Daftar Departemen')
 
 @section('breadcrumb')
-<a href="/dashboard">Dashboard</a> <span class="fa-angle-right fa"></span> Department
+<a href="/dashboard">Dashboard</a> <span class="fa-angle-right fa"></span> Departemen
 @endsection
 
 @section('content')
@@ -12,14 +12,14 @@
 @component('components.table')
     @slot('title')
     <h3>
-        Department @if(Auth::user()->admin) <a href="/department/create"><i class="fa fa-plus-circle"></i></a> @endif
+        Departemen @if(Auth::user()->admin) <a href="/department/create"><i class="fa fa-plus-circle"></i></a> @endif
     </h3>
     @endslot
 
     @slot('head')
     <tr>
         <th>No.</th>
-        <th>Nama Department</th>
+        <th>Nama Departemen</th>
         <th></th>
     </tr>
     @endslot
