@@ -17,11 +17,9 @@ class ObatController extends Controller
     public function proses_create_obat(Request $request){
         $obat = new Obat;
         $obat->nama = $request->nama;
-        $obat->stok = $request->stok;
         if($request->expirable != null){
             $obat->expirable = true;
         }
-        $obat->tgl_restok = date('Y-m-d');
         $obat->save();
 
         $kotaks = Kotak::all();
@@ -70,12 +68,6 @@ class ObatController extends Controller
         $obat = Obat::find($id);
 
         $obat->nama = $request->nama;
-        // Jika jumlah yang diinput lebih besar dari di database (yang berarti restok)
-        if($obat->stok < $request->stok){
-            // Update tanggal restok
-            $obat->tgl_restok = date('Y-m-d');
-        }
-        $obat->stok = $request->stok;
         $obat->save();
 
         return redirect('/obat/'.$id);

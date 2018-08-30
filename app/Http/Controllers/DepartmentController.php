@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 
 // Import model Department agar dapat digunakan dengan eloquent.
 use App\Department;
@@ -41,6 +42,9 @@ class DepartmentController extends Controller
 
     // Fungsi untuk menampilkan semua data department pada database.
     public function show_all_department(){
+        // Jika yang mengakses bukan ADMIN, redirect ke department miliknya
+        if(!Auth::user()->admin) return redirect('/department/'.Auth::user()->department_id);
+
         // Mengakses fungsi eloquent all() pada class model untuk mendapatkan semua data pada database.
         $departments = Department::all();
 
@@ -83,6 +87,9 @@ class DepartmentController extends Controller
     // Fungsi untuk menampilkan departement yang memiliki id dengan nilai tertentu.
     // Pencarian data dilakukan berdasarkan id yang diberikan oleh pengguna melalui link pada view.
     public function show_department($id){
+        // Jika yang mengakses bukan ADMIN dan bukan departmentnya, redirect ke department miliknya
+        if(!Auth::user()->admin && Auth::user()->department_id != $id) return redirect('/department/'.Auth::user()->department_id);
+
         // Menggunakan fungsi find() untuk mencari satu data dari database yang memiliki
         // ID/primary key tertentu. 
         // Fungsi find() ini hanya menerima parameter primary key saja.

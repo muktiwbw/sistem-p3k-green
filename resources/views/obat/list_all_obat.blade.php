@@ -21,19 +21,15 @@
    <tr >
         <th>No.</th>
         <th>Nama Obat</th>
-        <th>Stok Gudang</th>
-        <th>Tanggal Restok Terakhir</th>
         <th></th>
     </tr>
     @endslot
 
     @slot('body')
    @foreach($obats as $obat)
-    <tr ">
+    <tr>
         <td>{{ $loop->index + 1 }}</td>
         <td>{{ $obat->nama }}</td>
-        <td>{{ $obat->stok }}</td>
-        <td>{{ date('d F Y', strtotime($obat->tgl_restok)) }}</td>
         <td><a href="/obat/{{ $obat->id }}">Detail</a></td>
     </tr>
     @endforeach

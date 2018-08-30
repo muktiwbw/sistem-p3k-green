@@ -22,6 +22,7 @@
     <tr align="center">
         <th>No.</th>
         <th>Daftar Obat</th>
+        <th>Jumlah</th>
         <th>Status</th>
         <th>Tanggal Status</th>
         <th>Tanggal Order</th>
@@ -33,6 +34,7 @@
                 <td rowspan="{{ $order->orderItems->count() }}">{{ $loop->parent->index + 1 }}</td>
             @endif
             <td>{{ $order_item->isiKotak->obat->nama }}</td>
+            <td>{{ $order_item->jumlah }}</td>
             @if($loop->index == 0)
                 <td rowspan="{{ $order->orderItems->count() }}">
                 @switch($order->status)

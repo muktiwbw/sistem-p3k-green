@@ -15,7 +15,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('kotak_id');
+            $table->unsignedInteger('kotak_id')->nullable();
             $table->integer('status')->default(0);
             $table->date('tgl_status');
             $table->foreign('kotak_id')->references('id')->on('kotaks');

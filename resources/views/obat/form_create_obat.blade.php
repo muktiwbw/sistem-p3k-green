@@ -20,13 +20,6 @@
             @slot('placeholder', 'Nama Obat')
             @slot('value', '')
         @endcomponent
-        @component('components.input_text')
-            @slot('label', 'Stok')
-            @slot('type', 'number')
-            @slot('name', 'stok')
-            @slot('placeholder', 'Stok Gudang')
-            @slot('value', '')
-        @endcomponent
         @component('components.input_checkbox')
             @slot('name', 'expirable')
             @slot('text', 'Expirable')

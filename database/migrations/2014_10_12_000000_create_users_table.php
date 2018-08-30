@@ -20,6 +20,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
             // 0 - 1 / true -false
             $table->boolean('admin')->default(0);
+            $table->string('no_ext');
+            $table->string('email_bagian');
             $table->unsignedInteger('department_id')->nullable();
             $table->foreign('department_id')->references('id')->on('departments');
             $table->rememberToken();

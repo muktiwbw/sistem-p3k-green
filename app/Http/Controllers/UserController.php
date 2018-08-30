@@ -74,6 +74,8 @@ class UserController extends Controller
         $user->username = $request->username;
         $user->password = bcrypt($request->password);
         $user->department_id = $request->department_id;
+        $user->no_ext = $request->no_ext;
+        $user->email_bagian = $request->email_bagian;
         $user->save();
 
         return redirect('/');

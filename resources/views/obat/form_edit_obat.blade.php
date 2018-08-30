@@ -20,13 +20,6 @@
             @slot('placeholder', 'Nama Obat')
             @slot('value', $obat->nama)
         @endcomponent
-        @component('components.input_text')
-            @slot('label', 'Stok')
-            @slot('type', 'number')
-            @slot('name', 'stok')
-            @slot('placeholder', 'Stok Gudang')
-            @slot('value', $obat->stok)
-        @endcomponent
         @component('components.input_submit')
             @slot('value', 'Update')
         @endcomponent

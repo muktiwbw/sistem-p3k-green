@@ -16,9 +16,7 @@ class CreateObatsTable extends Migration
         Schema::create('obats', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nama');
-            $table->integer('stok');
             $table->boolean('expirable')->default(false);
-            $table->date('tgl_restok');
             $table->timestamps();
         });
     }

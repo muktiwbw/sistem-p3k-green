@@ -10,8 +10,6 @@
 
 @section('content')
 <p>Nama: {{ $obat->nama }}</p>
-<p>Stok Gudang: {{ $obat->stok }}</p>
-<p>Terakhir Restok: {{ date('d F Y', strtotime($obat->tgl_restok)) }}</p>
 @if(Auth::user()->admin)
 <p><a href="/obat/{{ $obat->id }}/edit">Edit</a> / <a href="/obat/{{ $obat->id }}/delete">Delete</a></p>
 @endif

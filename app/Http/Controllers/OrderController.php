@@ -31,9 +31,10 @@ class OrderController extends Controller
         $order->save();
 
         // Insert data order item sesuai dengan checkbox pada form
-        foreach($request->isi_kotak_id as $isi_kotak_id){
+        foreach($request->isi_kotak_id as $i => $isi_kotak_id){
             $orderItem = new OrderItem;
             $orderItem->isi_kotak_id = $isi_kotak_id;
+            $orderItem->jumlah = $request->number[$i];
             $orderItem->order_id = $order->id;
             $orderItem->save();
         }

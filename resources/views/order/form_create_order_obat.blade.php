@@ -21,7 +21,8 @@
             <th>No.</th>
             <th>Nama Obat</th>
             <th>Ketersediaan</th>
-            <th>Stok Gudang</th>
+            <th>Permintaan</th>
+            <th>Jumlah</th>
             <th></th>
         </tr>
         @foreach($user->kotak->isiKotaks as $isiKotak)
@@ -29,12 +30,30 @@
             <td>{{ $loop->index + 1 }}</td>
             <td>{{ $isiKotak->obat->nama }}</td>
             <td>@if(!$isiKotak->ada) Kosong @else Ada @endif</td>
-            <td>{{ $isiKotak->obat->stok }}</td>
-            <td><input type="checkbox" name="isi_kotak_id[]" value="{{ $isiKotak->id }}" @if($isiKotak->ada || $isiKotak->obat->stok <= 0) disabled @endif></td>
+            <td><input data-checkbox="{{ $loop->index + 1 }}" type="checkbox" name="isi_kotak_id[]" value="{{ $isiKotak->id }}" @if($isiKotak->ada) disabled @endif></td>
+            <td><input data-number="{{ $loop->index + 1 }}" type="number" name="number[]" disabled></td>
         </tr>
         @endforeach
     </table>
     <input type="submit" name="submit" value="Kirim Order">
     @csrf
 </form>
+
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script>
+    $(function(){
+        
+        $('input[type=checkbox]').change(function(){
+            let data_checkbox = $(this).attr('data-checkbox')
+            let checked = $(this).prop('checked')
+            let number = $('input[data-number='+data_checkbox+']')
+            
+            number.prop('disabled', !checked)
+        })
+
+    })
+</script>
 @endsection

@@ -39,6 +39,20 @@
             @endcomponent
             <br>
             <br>
+            @component('components.input_text')
+                @slot('label', 'No. Ext')
+                @slot('type', 'text')
+                @slot('name', 'no_ext')
+                @slot('placeholder', 'No. Ext')
+                @slot('value', '')
+            @endcomponent
+            @component('components.input_text')
+                @slot('label', 'Email Bagian')
+                @slot('type', 'text')
+                @slot('name', 'email_bagian')
+                @slot('placeholder', 'Email Bagian')
+                @slot('value', '')
+            @endcomponent
             @component('components.input_submit')
                 @slot('value', 'Register')
             @endcomponent

@@ -28,79 +28,69 @@ class InitSeeder extends Seeder
         $user = new User;
         $user->nama = 'Mukti Wibowo';
         $user->username = 'muktiwbw';
-        $user->password = bcrypt('anbuleader');
-        $user->department_id = 1;
+        $user->password = bcrypt('1234');
+        $user->department_id = 1;        
+        $user->no_ext = "089876546723";
+        $user->email_bagian = "bag1@gmail.com";
         $user->save();
+
         $user = new User;
         $user->nama = 'Mukti WWW';
         $user->username = 'muktiwww';
-        $user->password = bcrypt('anbuleader');
+        $user->password = bcrypt('1234');
         $user->department_id = 2;
+        $user->no_ext = "089789039482";
+        $user->email_bagian = "bag2@gmail.com";
         $user->save();
+        
         $user = new User;
         $user->nama = 'AAAZZZ';
         $user->username = 'aaazzz';
-        $user->password = bcrypt('anbuleader');
+        $user->password = bcrypt('1234');
         $user->department_id = 3;
+        $user->no_ext = "098787848321";
+        $user->email_bagian = "bag3@gmail.com";
         $user->save();
 
         $obat = new Obat;
         $obat->nama = 'Obat A';
-        $obat->stok = 11;
         $obat->expirable = true;
-        $obat->tgl_restok = date('Y-m-d');
         $obat->save();
 
         $obat = new Obat;
         $obat->nama = 'Obat B';
-        $obat->stok = 13;
         $obat->expirable = true;
-        $obat->tgl_restok = date('Y-m-d');
         $obat->save();
 
         $obat = new Obat;
         $obat->nama = 'Gunting';
-        $obat->stok = 20;
-        $obat->tgl_restok = date('Y-m-d');
         $obat->save();
 
         $obat = new Obat;
         $obat->nama = 'Obat C';
-        $obat->stok = 21;
         $obat->expirable = true;
-        $obat->tgl_restok = date('Y-m-d');
         $obat->save();
 
         $obat = new Obat;
         $obat->nama = 'Kasa';
-        $obat->stok = 10;
-        $obat->tgl_restok = date('Y-m-d');
         $obat->save();
 
         $obat = new Obat;
         $obat->nama = 'Obat D';
-        $obat->stok = 33;
         $obat->expirable = true;
-        $obat->tgl_restok = date('Y-m-d');
         $obat->save();
 
         $obat = new Obat;
         $obat->nama = 'Obat E';
-        $obat->stok = 10;
         $obat->expirable = true;
-        $obat->tgl_restok = date('Y-m-d');
         $obat->save();
 
         $obat = new Obat;
         $obat->nama = 'Perban';
-        $obat->stok = 22;
-        $obat->tgl_restok = date('Y-m-d');
         $obat->save();
         
         $obat = new Obat;
         $obat->nama = 'Kapas';
-        $obat->stok = 19;
-        $obat->tgl_restok = date('Y-m-d');
         $obat->save();
 
     }
