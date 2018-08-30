@@ -1,0 +1,16 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Department extends Model
+{
+    public function kotaks(){
+        return $this->hasMany('App\Kotak');
+    }
+
+    public function users(){
+        return $this->hasMany('App\User');
+    }
+}
