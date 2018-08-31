@@ -46,7 +46,7 @@ class UserController extends Controller
     public function form_register(){
         // Ngambil semua data di tabel department
         // all() untuk mengambil semua data pada tabel
-        $d = Department::all();
+        $departments = Department::all();
 
         // Dijadikan array untuk ditampilkan di view
         // $data adalah nama array
@@ -60,7 +60,7 @@ class UserController extends Controller
         // $b['satu']
         // Yang digunakan di view adalah key dari association array, yaitu departments.
         $data = [
-            'departments' => $d
+            'departments' => $departments
         ];
         // pada view, $data['departments'] diubah menjadi variabel $departments
             
@@ -107,10 +107,12 @@ class UserController extends Controller
         
         // Select
         $user = User::find($id);
+        $departments = Department::all();
 
         // Data yang mau ditampilkan di view
         $data = [
-            'user' => $user
+            'user' => $user,
+            'departments' => $departments
         ];
 
         return view('user.form_edit_user', $data);
@@ -123,12 +125,11 @@ class UserController extends Controller
         // Update
         $user->nama = $request->nama;
         $user->username = $request->username;
-        if($request->password != ""){
-            $user->password = bcrypt($request->password);
-        }
+        if($request->department_id != null) $user->department_id = $request->department_id;
+        if($request->password != null && $request->password != "") $user->password = bcrypt($request->password);
         $user->save();
 
-        return redirect('/dashboard');
+        return redirect('/user');
     }
 
     public function proses_delete($id){

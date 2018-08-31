@@ -20,8 +20,8 @@ class CreateIsiKotaksTable extends Migration
             $table->boolean('expired')->default(false);
             $table->date('tgl_expired')->nullable();
             $table->boolean('ada')->default(false);
-            $table->foreign('kotak_id')->references('id')->on('kotaks');
-            $table->foreign('obat_id')->references('id')->on('obats');
+            $table->foreign('kotak_id')->references('id')->on('kotaks')->onDelete('cascade');
+            $table->foreign('obat_id')->references('id')->on('obats')->onDelete('cascade');
             $table->timestamps();
         });
     }

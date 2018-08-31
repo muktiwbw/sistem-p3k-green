@@ -14,19 +14,39 @@ use DB;
 class OrderController extends Controller
 {
     public function form_create_order_obat(){
-        $user = Auth::user();
+        $kotaks = Kotak::whereDoesntHave('orders', function($query){
+            $query->where('status', 0);
+        })->get();
+        $obats = Obat::all();
 
         $data = [
-            'user' => $user
+            'kotaks' => $kotaks,
+            'obats' => $obats,
         ];
 
         return view('order.form_create_order_obat', $data);
     }
 
+    public function json_form_create_order_obat($id){
+        $kotak = Kotak::find($id);
+        $isiKotaks = $kotak->isiKotaks->sortBy('obat_id');
+        
+        $data = [
+            'penanggungjawab' => ($kotak->user) ? $kotak->user->nama : '-',
+            'nomor_kotak' => $kotak->id,
+            'bagian' => $kotak->bagian,
+            'lokasi' => $kotak->lokasi,
+            'department' => ($kotak->user->department) ? $kotak->user->department->nama : '-',
+            'isi_kotaks' => $isiKotaks
+        ];
+
+        return json_encode($data);
+    }
+
     public function proses_create_order_obat(Request $request){
         // Insert data order
         $order = new Order;
-        $order->kotak_id = Auth::user()->kotak->id;
+        $order->kotak_id = Auth::user()->admin ? $request->hidden_kotak_id : Auth::user()->kotak->id;
         $order->tgl_status = date('Y-m-d');
         $order->save();
 
@@ -87,10 +107,6 @@ class OrderController extends Controller
             }
             $isi_kotak->ada = ($request->tgl_expired[$i] != 0 && time() >= strtotime($request->tgl_expired[$i])) ? false : true;
             $isi_kotak->save();
-
-            $obat = Obat::find($isi_kotak->obat->id);
-            $obat->stok = $obat->stok - 1;
-            $obat->save();
         }
 
         $order = Order::find($id);

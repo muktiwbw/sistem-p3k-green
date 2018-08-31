@@ -9,21 +9,26 @@
 @endsection
 
 @section('content')
-<p>Nomor Kotak: {{ $kotak->id }}</p>
-<p>Bagian: {{ $kotak->bagian }}</p>
-<p>Lokasi: {{ $kotak->lokasi }}</p>
-<p>Department: {{ $kotak->user->department->nama }}</p>
-<p>Penanggung Jawab: {{ $kotak->user->nama }}</p>
-@if(Auth::user()->admin)
-<p><a href="/kotak/{{ $kotak->id }}/edit">Edit</a> / <a href="/kotak/{{ $kotak->id }}/delete">Delete</a></p>
-@endif
+@component('components.info_panel')
+@slot('title', 'Info Kotak '.$kotak->id)
+@slot('body')
+    <p>Nomor Kotak: {{ $kotak->id }}</p>
+    <p>Bagian: {{ $kotak->bagian }}</p>
+    <p>Lokasi: {{ $kotak->lokasi }}</p>
+    <p>Departemen: @if($kotak->user && $kotak->user->department) {{ $kotak->user->department->nama }} @else - @endif</p>
+    <p>Penanggung Jawab: @if($kotak->user) {{ $kotak->user->nama }} @else - @endif</p>
+    @if(Auth::user()->admin)
+    <p><a href="/kotak/{{ $kotak->id }}/edit">Edit</a> / <a href="/kotak/{{ $kotak->id }}/delete">Delete</a></p>
+    @endif
+@endslot
+@endcomponent
 @component('components.table')
     @slot('title')
     <h3>
         Daftar Obat 
     </h3>
     <h4>
-        @if($kotak->user->id == Auth::id())
+        @if($kotak->user && $kotak->user->id == Auth::id())
         <a href="/isi_kotak/{{ $kotak->id }}/edit"><i class="fa fa-pencil"></i> Edit Daftar Obat</a> | 
         @if($kotak->orders->where('status', 0)->count() > 0)
         Order sedang menunggu persetujuan admin
@@ -48,7 +53,7 @@
 
     @slot('body')
     @foreach($kotak->isiKotaks as $isiKotak)
-    <tr @if(!$isiKotak->ada || $isiKotak->expired) bgcolor="ffcece" @endif>
+    <tr class="@if(!$isiKotak->ada || $isiKotak->expired) text-danger @endif">
         <td>{{ $loop->index + 1 }}</td>
         <td>{{ $isiKotak->obat->nama }}</td>
         <td>@if($isiKotak->tgl_expired == null) - @else {{ date('d F Y', strtotime($isiKotak->tgl_expired)) }} @endif</td>

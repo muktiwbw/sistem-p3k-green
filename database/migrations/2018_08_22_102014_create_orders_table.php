@@ -18,7 +18,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedInteger('kotak_id')->nullable();
             $table->integer('status')->default(0);
             $table->date('tgl_status');
-            $table->foreign('kotak_id')->references('id')->on('kotaks');
+            $table->foreign('kotak_id')->references('id')->on('kotaks')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -18,8 +18,8 @@ class CreateOrderItemsTable extends Migration
             $table->unsignedInteger('isi_kotak_id')->nullable();
             $table->unsignedInteger('order_id')->nullable();
             $table->integer('jumlah');
-            $table->foreign('order_id')->references('id')->on('orders');
-            $table->foreign('isi_kotak_id')->references('id')->on('isi_kotaks');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->foreign('isi_kotak_id')->references('id')->on('isi_kotaks')->onDelete('cascade');
             $table->timestamps();
         });
     }

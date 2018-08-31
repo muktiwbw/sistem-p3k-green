@@ -11,9 +11,7 @@
 @component('components.table')
     @slot('title')
     <h3>
-       @if(Auth::user()->admin)
-            <a href="/obat/create">Create</a>
-        @endif
+        Daftar Obat @if(Auth::user()->admin) <a href="/obat/create"><i class="fa fa-plus-circle"></i></a> @endif
     </h3>
     @endslot
 

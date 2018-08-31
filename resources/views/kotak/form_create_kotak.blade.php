@@ -43,6 +43,8 @@ Tidak ada penanggung jawab yang tersedia saat ini.
 		        @endforeach
 	        @endslot
 	     @endcomponent
+         <br>
+         <br>
 
         @component('components.input_submit')
             @slot('value', 'Create')

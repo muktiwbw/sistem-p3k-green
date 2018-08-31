@@ -9,13 +9,22 @@
 @endsection
 
 @section('content')
-<h2>Obat yang sering diminta</h2>
-<table border="1">
-    <tr align="center">
+@component('components.table')
+ @slot('title')
+    <h3>
+        Obat yang sering diminta
+    </h3>
+    @endslot
+
+    @slot('head')
+     <tr align="center">
         <th>No.</th>
         <th>Nama Obat</th>
         <th>Total Diminta</th>
     </tr>
+    @endslot
+
+    @slot('body')
     @foreach($obats as $obat)
     <tr align="center">
         <td>{{ $loop->index + 1 }}</td>
@@ -23,15 +32,25 @@
         <td>{{ $obat->total }}</td>
     </tr>
     @endforeach
-</table>
+    @endslot
+@endcomponent
 
-<h2>Department yang sering meminta obat</h2>
-<table border="1">
-    <tr align="center">
+@component('components.table')
+ @slot('title')
+    <h3>
+        Departemen Yang Sering Melakukan Permintaan
+    </h3>
+    @endslot
+
+    @slot('head')
+     <tr align="center">
         <th>No.</th>
-        <th>Nama Department</th>
+        <th>Nama Departemen</th>
         <th>Total Permintaan</th>
     </tr>
+    @endslot
+
+    @slot('body')
     @foreach($departments as $department)
     <tr align="center">
         <td>{{ $loop->index + 1 }}</td>
@@ -39,5 +58,6 @@
         <td>{{ $department->total }}</td>
     </tr>
     @endforeach
-</table>
+    @endslot
+@endcomponent
 @endsection

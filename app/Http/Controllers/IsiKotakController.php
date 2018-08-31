@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Kotak;
 use App\IsiKotak;
+use App\Order;
 
 class IsiKotakController extends Controller
 {
@@ -107,6 +108,11 @@ class IsiKotakController extends Controller
             $isi_kotak->ada = false;
             $isi_kotak->expired = true;
             $isi_kotak->save();
+        }
+
+        // Hapus juga pesanan pending yang tidak memiliki item
+        foreach(Order::where('status', 0)->whereDoesntHave('orderItems')->get() as $order){
+            $order->delete();
         }
 
         // Mengalihkan pengguna kembali ke halaman sebelumnya.

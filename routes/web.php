@@ -43,11 +43,6 @@ Route::group([
 Route::group([
     'middleware' => 'login:0'
 ], function(){
-    // Menampilkan form pengajuan order obat
-    Route::get('/order/create', 'OrderController@form_create_order_obat');
-    // Melakukan proses pembuatan order obat ke ADMIN
-    Route::post('/order/create', 'OrderController@proses_create_order_obat');
-
     // Menampilkan form untuk update status obat pada kotak dengan menandai obat tersebut habis
     Route::get('/isi_kotak/{id_kotak}/edit', 'IsiKotakController@form_edit_isi_kotak');
     // Melakukan proses update status obat
@@ -108,6 +103,9 @@ Route::group([
     // Menampilkan semua data order obat pada database
     Route::get('/order', 'OrderController@show_all_order_obat');
 
+    // Menampilkan semua data order obat pada database
+    Route::get('/order/json/create/{id}', 'OrderController@json_form_create_order_obat');
+
     // Menampilkan form persetujuan order obat dari USER
     Route::get('/order/{id_order}/approve', 'OrderController@form_approve_order_obat');
     // Menyetujui order obat dari USER
@@ -150,6 +148,11 @@ Route::group([
     // Menampilkan detail obat tertentu
     Route::get('/obat/{id}', 'ObatController@show_obat');
 
+    // Menampilkan form pengajuan order obat
+    Route::get('/order/create', 'OrderController@form_create_order_obat');
+    // Melakukan proses pembuatan order obat ke ADMIN
+    Route::post('/order/create', 'OrderController@proses_create_order_obat');
+    
     // Menampilkan semua data riwayat order obat pada kotak tertentu
     Route::get('/order/{id_kotak}/track', 'OrderController@show_all_track_order');
 

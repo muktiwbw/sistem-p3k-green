@@ -78,8 +78,14 @@ class KotakController extends Controller
 
     public function form_edit_kotak($id){
         $kotak = Kotak::find($id);
+        
+        $users;
         // Mencari user yang tidak memiliki kotak dan yang memegang kotak tersebut
-        $users = User::where('admin', false)->whereDoesntHave('kotak')->orWhere('id', $kotak->user->id)->orderBy('department_id')->get();
+        if($kotak->user_id != null){
+            $users = User::where('admin', false)->whereDoesntHave('kotak')->orWhere('id', $kotak->user->id)->orderBy('department_id')->get();
+        }else{
+            $users = User::where('admin', false)->whereDoesntHave('kotak')->orderBy('department_id')->get();
+        }
         $departments = Department::all();
 
         $data = [

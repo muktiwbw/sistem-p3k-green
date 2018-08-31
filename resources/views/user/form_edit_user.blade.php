@@ -33,13 +33,27 @@ Setting
             @slot('placeholder', 'User Name')
             @slot('value', $user->username)
         @endcomponent
-        @component('components.input_text')
-            @slot('label', 'Password')
-            @slot('type', 'password')
-            @slot('name', 'password')
-            @slot('placeholder', 'Password')
-            @slot('value', '')
-        @endcomponent
+        @if(Auth::user()->admin)
+            @component('components.input_dropdown')
+                @slot('label', 'Department')
+                @slot('name', 'department_id')
+                @slot('options')
+                    @foreach($departments as $department)
+                        <option value="{{ $department->id }}">{{ $department->nama }}</option>
+                    @endforeach
+                @endslot
+            @endcomponent
+            <br>
+            <br>
+        @else
+            @component('components.input_text')
+                @slot('label', 'Password')
+                @slot('type', 'password')
+                @slot('name', 'password')
+                @slot('placeholder', 'Password')
+                @slot('value', '')
+            @endcomponent
+        @endif
         @component('components.input_submit')
             @slot('value', 'Create')
         @endcomponent

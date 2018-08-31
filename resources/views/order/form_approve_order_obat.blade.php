@@ -9,33 +9,44 @@
 @endsection
 
 @section('content')
-<form action="/order/{{$order->id}}/approve" method="post">
-    <table border="1">
-        <tr align="center">
-            <th>No.</th>
-            <th>Nama Obat</th>
-            <th>Jumlah Order</th>
-            <th>Stok Gudang</th>
-            <th>Tanggal Expired</th>
-        </tr>
-            @foreach($order->orderItems as $orderItem)
-            <tr align="center">
-                <td>{{ $loop->index + 1 }}</td>
-                <td>{{ $orderItem->isiKotak->obat->nama }}</td>
-                <td>1</td>
-                <td>{{ $orderItem->isiKotak->obat->stok }}</td>
-                <td>
-                    @if($orderItem->isiKotak->obat->expirable)
-                    <input type="date" name="tgl_expired[]">
-                    @else
-                    <input type="hidden" name="tgl_expired[]" value="0"> -
-                    @endif
-                    <input type="hidden" name="order_item_id[]" value="{{ $orderItem->id }}">
-                </td>
+    <form action="/order/{{ $order->id }}/approve" method="post">
+        @component('components.table')
+            @slot('title')
+            <h3>
+                Menyetujui Permintaan Obat 
+            </h3>
+            @endslot
+
+            @slot('head')
+            <tr >
+                <th>No.</th>
+                <th>Nama Obat</th>
+                <th>Jumlah Order</th>
+                <th>Tanggal Expired</th>
             </tr>
-            @endforeach
-    </table>
-    @csrf
-    <input type="submit" name="submit" value="Approve">
-</form>
+            @endslot
+
+            @slot('body')
+                @foreach($order->orderItems as $orderItem)
+                    <tr >
+                        <td>{{ $loop->index + 1 }}</td>
+                        <td>{{ $orderItem->isiKotak->obat->nama }}</td>
+                        <td>{{ $orderItem->jumlah }}</td>
+                        <td>
+                            @if($orderItem->isiKotak->obat->expirable)
+                            <input type="date" name="tgl_expired[]">
+                            @else
+                            <input type="hidden" name="tgl_expired[]" value="0"> -
+                            @endif
+                            <input type="hidden" name="order_item_id[]" value="{{ $orderItem->id }}">
+                        </td>
+                    </tr>
+                @endforeach
+            @endslot
+        @endcomponent
+        @csrf
+        @component('components.input_submit')
+            @slot('value','Setuju')
+        @endcomponent
+    </form>
 @endsection

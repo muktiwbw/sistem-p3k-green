@@ -8,11 +8,21 @@
 @endsection
 
 @section('content')
-<p><a href="/order/rekap">Lihat Rekap</a></p>
-<h2>Order Masuk</h2>
+<div class="col-md-12">
+    @if(Auth::user()->admin)
+    <p><a href="/order/create">Buat Permintaan</a></p>
+    @endif
+</div>
 @if($orders->where('status', 0)->count() > 0)
-<table border="1">
-    <tr align="center">
+@component('components.table')
+    @slot('title')
+    <h3>
+        Permintaan Masuk
+    </h3>
+    @endslot
+
+    @slot('head')
+     <tr align="center">
         <th>No.</th>
         <th>Nomor Kotak</th>
         <th>Department</th>
@@ -20,23 +30,28 @@
         <th>Lokasi</th>
         <th>Penanggung Jawab</th>
         <th>Daftar Obat</th>
+        <th>Jumlah</th>
         <th>Status</th>
         <th>Tanggal Status</th>
         <th>Tanggal Order</th>
         <th></th>
     </tr>
+    @endslot
+
+    @slot('body')
     @foreach($orders->where('status', 0)->sortByDesc('created_at') as $order)
         @foreach($order->orderItems as $order_item)
         <tr align="center">
             @if($loop->index == 0)
                 <td rowspan="{{ $order->orderItems->count() }}">{{ $loop->parent->index + 1 }}</td>
                 <td rowspan="{{ $order->orderItems->count() }}">{{ $order_item->isiKotak->kotak->id }}</td>
-                <td rowspan="{{ $order->orderItems->count() }}">{{ $order_item->isiKotak->kotak->user->department->nama }}</td>
+                <td rowspan="{{ $order->orderItems->count() }}"> @if($order_item->isiKotak->kotak->user && $order_item->isiKotak->kotak->user->department) {{ $order_item->isiKotak->kotak->user->department->nama }} @else - @endif</td>
                 <td rowspan="{{ $order->orderItems->count() }}">{{ $order_item->isiKotak->kotak->bagian }}</td>
                 <td rowspan="{{ $order->orderItems->count() }}">{{ $order_item->isiKotak->kotak->lokasi }}</td>
-                <td rowspan="{{ $order->orderItems->count() }}">{{ $order_item->isiKotak->kotak->user->nama }}</td>
+                <td rowspan="{{ $order->orderItems->count() }}" > @if($order_item->isiKotak->kotak->user){{ $order_item->isiKotak->kotak->user->nama }} @else - @endif</td>
             @endif
             <td>{{ $order_item->isiKotak->obat->nama }}</td>
+            <td>{{ $order_item->jumlah }}</td>
             @if($loop->index == 0)
                 <td rowspan="{{ $order->orderItems->count() }}">Pending</td>
                 <td rowspan="{{ $order->orderItems->count() }}">{{ date('d F Y', strtotime($order->tgl_status)) }}</td>
@@ -46,38 +61,54 @@
         </tr>
         @endforeach
     @endforeach
-</table>
+    @endslot
+@endcomponent
+
 @else
-Tidak ada order masuk.
+<div class="col-md-12">
+    Tidak ada order masuk.
+</div>
 @endif
 
-<h2>Riwayat Order</h2>
+
 @if($orders->whereIn('status', [1, 2])->count() > 0)
-<table border="1">
+@component('components.table')
+    @slot('title')
+    <h3>
+        Riwayat Permintaan
+    </h3>
+    @endslot
+
+    @slot('head')
     <tr align="center">
         <th>No.</th>
         <th>Nomor Kotak</th>
-        <th>Department</th>
+        <th>Departemen</th>
         <th>Bagian</th>
         <th>Lokasi</th>
         <th>Penanggung Jawab</th>
         <th>Daftar Obat</th>
+        <th>Jumlah</th>
         <th>Status</th>
         <th>Tanggal Status</th>
-        <th>Tanggal Order</th>
+        <th>Tanggal Permintaan</th>
     </tr>
+    @endslot
+
+    @slot('body')
     @foreach($orders->whereIn('status', [1, 2])->sortByDesc('created_at') as $order)
         @foreach($order->orderItems as $order_item)
         <tr align="center">
             @if($loop->index == 0)
                 <td rowspan="{{ $order->orderItems->count() }}">{{ $loop->parent->index + 1 }}</td>
                 <td rowspan="{{ $order->orderItems->count() }}">{{ $order_item->isiKotak->kotak->id }}</td>
-                <td rowspan="{{ $order->orderItems->count() }}">{{ $order_item->isiKotak->kotak->user->department->nama }}</td>
+                <td rowspan="{{ $order->orderItems->count() }}"> @if($order_item->isiKotak->kotak->user && $order_item->isiKotak->kotak->user->department) {{ $order_item->isiKotak->kotak->user->department->nama }} @else - @endif</td>
                 <td rowspan="{{ $order->orderItems->count() }}">{{ $order_item->isiKotak->kotak->bagian }}</td>
                 <td rowspan="{{ $order->orderItems->count() }}">{{ $order_item->isiKotak->kotak->lokasi }}</td>
-                <td rowspan="{{ $order->orderItems->count() }}">{{ $order_item->isiKotak->kotak->user->nama }}</td>
+                <td rowspan="{{ $order->orderItems->count() }}"> @if($order_item->isiKotak->kotak->user) {{ $order_item->isiKotak->kotak->user->nama }} @else - @endif</td>
             @endif
             <td>{{ $order_item->isiKotak->obat->nama }}</td>
+            <td>{{ $order_item->jumlah }}</td>
             @if($loop->index == 0)
                 <td rowspan="{{ $order->orderItems->count() }}">
                 @switch($order->status)
@@ -95,8 +126,16 @@ Tidak ada order masuk.
         </tr>
         @endforeach
     @endforeach
-</table>
+    @endslot
+@endcomponent
+
+
 @else
-Riwayat order kosong.
+<div class="col-md-12">
+    Riwayat order kosong.
+</div>
 @endif
+<div class="col-md-12">
+    <p><a href="/order/rekap">Lihat Rekap</a></p>
+</div>
 @endsection

@@ -11,7 +11,7 @@
 @component('components.table')
     @slot('title')
     <h3>
-       List User
+       Daftar User
     </h3>
     @endslot
 
@@ -20,7 +20,7 @@
         <th>No.</th>
         <th>Username</th>
         <th>Nama</th>
-        <th>Department</th>
+        <th>Departemen</th>
         <th>Tanggal Registrasi</th>
         <th></th>
     </tr>
@@ -32,8 +32,8 @@
         <td>{{ $loop->index + 1}}</td>
         <td>{{ $user->username }}</td>
         <td>{{ $user->nama }}</td>
-        <td>{{ $user->department->nama }}</td>
-        <td>{{ $user->created_at }}</td>
+        <td>@if($user->department) {{ $user->department->nama }} @else - @endif</td>
+        <td>{{ date('d F Y', strtotime($user->created_at)) }}</td>
         <td><a href="/user/{{ $user->id }}">Detail</a></td>
     </tr>
     @endforeach

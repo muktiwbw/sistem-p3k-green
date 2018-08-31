@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('no_ext');
             $table->string('email_bagian');
             $table->unsignedInteger('department_id')->nullable();
-            $table->foreign('department_id')->references('id')->on('departments');
+            $table->foreign('department_id')->references('id')->on('departments')->onDelete('set null');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -10,23 +10,43 @@
 @endsection
 
 @section('content')
-<p>Nomor Kotak: {{ $kotak->id }}</p>
-<p>Bagian: {{ $kotak->bagian }}</p>
-<p>Lokasi: {{ $kotak->lokasi }}</p>
-<p>Department: {{ $kotak->user->department->nama }}</p>
-<p>Penanggung Jawab: {{ $kotak->user->nama }}</p>
+
+@component('components.info_panel')
+    @slot('title', 'Riwayat Order Obat Kotak '.$kotak->id)
+    @slot('body')
+        <p>Nomor Kotak: {{ $kotak->id }}</p>
+        <p>Bagian: {{ $kotak->bagian }}</p>
+        <p>Lokasi: {{ $kotak->lokasi }}</p>
+        <p>Department: {{ $kotak->user->department->nama }}</p>
+        <p>Penanggung Jawab: {{ $kotak->user->nama }}</p>
+    @endslot
+@endcomponent
+
 @if($kotak->orders->count() == 0)
-<p>Tidak ada riwayat order untuk kotak ini.</p>
+    <div class="col-md-12">
+        <p>Tidak ada riwayat order untuk kotak ini.</p>
+    </div>
 @else
-<table border="1">
-    <tr align="center">
+@component('components.table')
+    @slot('title')
+    <h3>
+        Riwayat Permintaan 
+    </h3>
+    
+    @endslot
+
+    @slot('head')
+     <tr align="center">
         <th>No.</th>
         <th>Daftar Obat</th>
         <th>Jumlah</th>
         <th>Status</th>
         <th>Tanggal Status</th>
-        <th>Tanggal Order</th>
+        <th>Tanggal Permintaan</th>
     </tr>
+    @endslot
+
+    @slot('body')
     @foreach($kotak->orders->sortByDesc('created_at') as $order)
         @foreach($order->orderItems as $order_item)
         <tr align="center">
@@ -55,6 +75,7 @@
         </tr>
         @endforeach
     @endforeach
-</table>
+    @endslot
+@endcomponent
 @endif
 @endsection

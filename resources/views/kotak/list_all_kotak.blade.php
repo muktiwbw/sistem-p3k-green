@@ -1,16 +1,23 @@
 @extends('layouts.layout')
 
-@section('title', 'List Kotak')
-@section('page-title', 'List Kotak')
+@if(Auth::user()->admin)
+    @section('title', 'Daftar Kotak')
+    @section('page-title', 'Daftar Kotak')
+@else
+    @section('title', 'Daftar Kotak Pada Departemen Anda')
+    @section('page-title', 'Daftar Kotak Pada Departemen Anda')
+@endif
 
 @section('breadcrumb')
 <a href="/dashboard">Dashboard</a> <span class="fa-angle-right fa"></span> Kotak
 @endsection
 
 @section('content')
-@if(Auth::user()->admin)
-<a href="/kotak/create">Create</a> / <a href="/isi_kotak/update_expired">Update Expired Obat</a>
-@endif
+<div class="col-md-12">
+    @if(Auth::user()->admin)
+    <a href="/isi_kotak/update_expired">Update Expired Obat</a>
+    @endif
+</div>
 @if(!Auth::user()->admin)
 @if(Auth::user()->kotak != null)
 @component('components.table')
@@ -23,7 +30,7 @@
     @slot('head')
     <tr >
         <th>Nomor Kotak</th>
-        <th>Department</th>
+        <th>Departemen</th>
         <th>Bagian</th>
         <th>Lokasi</th>
         <th>Penanggung Jawab</th>
@@ -34,7 +41,7 @@
     @slot('body')
    <tr align="center">
         <td>Kotak {{ Auth::user()->kotak->id }}</td>
-        <td>{{ Auth::user()->department->nama }}</td>
+        <td>@if(Auth::user()->department) {{ Auth::user()->department->nama }} @else - @endif</td>
         <td>{{ Auth::user()->kotak->bagian }}</td>
         <td>{{ Auth::user()->kotak->lokasi }}</td>
         <td>{{ Auth::user()->nama }}</td>
@@ -43,23 +50,22 @@
     @endslot
 @endcomponent
 
-
-
-
 @else
-<p>Anda tidak memiliki kotak.</p>
+<div class="col-md-12">
+    <p>Anda tidak memiliki kotak.</p>
+</div>
 @endif
 @endif
 
-
-@if(!Auth::user()->admin)
-<h2>Kotak Lain</h2>
-@endif
 @if($kotaks->whereNotIn('user_id', [Auth::id()])->count() > 0)
 @component('components.table')
     @slot('title')
     <h3>
-        Kotak Lain
+        @if(!Auth::user()->admin)
+        Kotak Lain Pada Departemen Anda
+        @else
+        Daftar Kotak @if(Auth::user()->admin) <a href="/kotak/create"><i class="fa fa-plus-circle"></i></a> @endif
+        @endif
     </h3>
     @endslot
 
@@ -68,7 +74,7 @@
        <tr >
             <th>No.</th>
             <th>Nomor Kotak</th>
-            <th>Department</th>
+            <th>Departemen</th>
             <th>Bagian</th>
             <th>Lokasi</th>
             <th>Penanggung Jawab</th>
@@ -77,22 +83,26 @@
     @endslot
 
     @slot('body')
-   <tr ">
-     @foreach($kotaks->whereNotIn('user_id', [Auth::id()]) as $kotak)
+    @foreach($kotaks->whereNotIn('user_id', [Auth::id()]) as $kotak)
+    @if(Auth::user()->admin || ($kotak->user && $kotak->user->department && $kotak->user->department->id == Auth::user()->department_id))
+    <tr>
         <td>{{$loop->index + 1}}</td>
         <td>Kotak {{ $kotak->id }}</td>
-        <td>{{ $kotak->user->department->nama }}</td>
+        <td>@if($kotak->user && $kotak->user->department) {{ $kotak->user->department->nama }} @else - @endif</td>
         <td>{{ $kotak->bagian }}</td>
         <td>{{ $kotak->lokasi }}</td>
-        <td>{{ $kotak->user->nama }}</td>
+        <td>@if($kotak->user) {{ $kotak->user->nama }} @else - @endif</td>
         <td><a href="/kotak/{{ $kotak->id }}">Detail</a></td>
     </tr>
+    @endif
     @endforeach
     @endslot
 @endcomponent
 <!-- Kotak yang bukan punya kita -->
 
 @else
-<p>Belum ada kotak yang terdaftar.</p>
+<div class="col-md-12">
+    <p>Belum ada kotak yang terdaftar. @if(Auth::user()->admin) <a href="/kotak/create">Silahkan membuat kotak baru.</a> @endif</p>
+</div>
 @endif
 @endsection

@@ -23,7 +23,7 @@
                     @slot('value', '')
                 @endcomponent
                 @component('components.input_submit')
-                    @slot('value','login')
+                    @slot('value','Login')
                 @endcomponent
         @endslot
         @slot('link')<a href="/register">Register</a>@endslot
